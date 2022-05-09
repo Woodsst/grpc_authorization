@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+service Greeter {
+  rpc Register (RegisterRequest) returns (RegisterReply) {}
+  rpc Login (LoginRequest) returns (LoginReply) {}
+  rpc Connect (stream ping) returns (stream pong) {}
+}
+
+enum RegisterCodeResult
+{
+  RCR_undefined = 0;
+  RCR_ok = 1;
+  RCR_already_exist = 2;
+  RCR_bad_credentials = 3;
+}
+
+enum LoginCodeResult
+{
+  LCR_undefined = 0;
+  LCR_ok = 1;
+  LCR_unknown_user = 2;
+  LCR_bad_credentials = 3;
+}
+
+message RegisterRequest {
+  string user_name = 1;
+  string user_passwd = 2;
+}
+
+message RegisterReply {
+  RegisterCodeResult code = 1;
+  string reason = 2;
+}
+
+message LoginRequest {
+  string user_name = 1;
+  string user_passwd = 2;
+}
+
+message LoginReply {
+  LoginCodeResult code = 1;
+  string reason = 2;
+  string token = 3;
+}
+
+message ping {
+  string token = 1;
+}
+
+message pong {
+
+}
