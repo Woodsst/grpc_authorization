@@ -1,2 +1,5 @@
 venv
 .idea
+all_messages.log
+.pytest_cache
+__pycache__

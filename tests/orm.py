@@ -21,3 +21,9 @@ class Orm:
         SELECT token FROM clients WHERE username='test_user';
         """)
         return self.cursor.fetchone()
+
+    def delete_test_client(self):
+        self.cursor.execute("""
+        DELETE FROM clients WHERE username='test_user';
+        """)
+        self.conn.commit()
