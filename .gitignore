@@ -3,3 +3,6 @@ venv
 all_messages.log
 .pytest_cache
 __pycache__
+/ex.py
+/tests/.coverage
+/tests/htmlcov/

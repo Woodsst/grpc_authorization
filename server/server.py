@@ -8,8 +8,9 @@ from server.config import Settings
 from server.id_generator import token_generator
 from server.orm import Orm
 from server.registration import Registration
-from server.server_pb2 import RegisterReply, RegisterCodeResult
+from server.server_pb2 import RegisterReply, RegisterCodeResult, LoginReply, LoginCodeResult
 from server.server_pb2_grpc import GreeterServicer, add_GreeterServicer_to_server
+from server.authorization import ClientStatus
 
 logger = logging.getLogger()
 
@@ -20,24 +21,30 @@ class Server(GreeterServicer):
         self.config = Settings()
         self.orm = Orm(self.config)
 
-    def Login(self, request, context):
-        auth = Authorization(request.user_name, request.user_passwd)
-        auth.client_authorization()
+    def Login(self, request, context) -> LoginReply:
+        auth = Authorization(request.user_name, request.user_passwd, self.orm)
+        check = auth.client_authorization()
+        if check == ClientStatus.CLIENT_AUTHORIZATION:
+            token = token_generator()
+            self.orm.add_client_id(request.user_name, token)
+            return LoginReply(code=LoginCodeResult.Value("LCR_ok"), token=token)
+        else:
+            return LoginReply(code=LoginCodeResult.Value("LCR_unknown_user"))
 
     def Register(self, request, context) -> RegisterReply:
         if len(request.user_name) <= 0 or len(request.user_passwd) <= 0:
-            logger.debug('%s - bad name or pass', request.user_name)
-            return RegisterReply(code=RegisterCodeResult.Name(0))
+            logger.info('%s - bad name or pass', request.user_name)
+            return RegisterReply(code=RegisterCodeResult.Value('RCR_undefined'))
 
         logger.info('%s - register request', request.user_name)
         register = Registration(request.user_name, request.user_passwd, self.orm)
         if register.registration():
             token = token_generator()
             self.orm.add_client_id(request.user_name, token)
-            return RegisterReply(code=RegisterCodeResult.Name(1), reason=token)
+            return RegisterReply(code=RegisterCodeResult.Value('RCR_ok'), reason=token)
 
-        logger.debug('%s - client exist', request.user_name)
-        return RegisterReply(code=RegisterCodeResult.Name(2))
+        logger.info('%s - client exist', request.user_name)
+        return RegisterReply(code=RegisterCodeResult.Value('RCR_already_exist'))
 
     def Connect(self, request_iterator, context):
         pass

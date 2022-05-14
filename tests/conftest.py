@@ -21,7 +21,7 @@ def server_start():
     terminate_server()
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def orm():
     orm = Orm(config)
     yield orm

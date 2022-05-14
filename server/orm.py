@@ -45,3 +45,15 @@ class Orm:
         except psycopg.errors.UniqueViolation:
             return False
         return True
+
+    def get_client(self, user_name: str, passwd: str) -> bool:
+        self.cursor.execute("""
+        SELECT username, passwd 
+        FROM clients 
+        WHERE username=%(user_name)s and passwd=%(passwd)s;
+        """, {
+            "user_name": user_name,
+            "passwd": passwd
+        }
+                            )
+        return self.cursor.fetchone()
