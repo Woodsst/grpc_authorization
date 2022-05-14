@@ -3,3 +3,4 @@ db_name: messanger
 db_password: '123'
 db_port: 5432
 db_username: wood
+secret_key: secret_key

@@ -1,5 +1,6 @@
-from server.orm import Orm
 from base64 import b64encode
+
+from server.orm import Orm
 
 
 class Registration:

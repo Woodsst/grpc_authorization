@@ -3,10 +3,11 @@ import time
 
 import grpc
 import pytest
-from server_pb2_grpc import GreeterStub
-from orm import Orm
+
 from config import Settings
+from orm import Orm
 from server_command import terminate_server
+from server_pb2_grpc import GreeterStub
 
 config = Settings()
 

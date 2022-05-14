@@ -13,6 +13,7 @@ class Settings:
             self.db_host = yaml_file["db_host"]
             self.db_port = yaml_file["db_port"]
             self.db_password = yaml_file["db_password"]
+            self.secret_key = yaml_file["secret_key"]
         self.default = self.default_config()
 
     def default_config(self):
@@ -21,7 +22,8 @@ class Settings:
             "db_username": self.db_username,
             "db_host": self.db_host,
             "db_port": self.db_port,
-            "db_password": self.db_password
+            "db_password": self.db_password,
+            "secret_key": self.secret_key
         }
         return default
 
@@ -41,13 +43,15 @@ class Settings:
                 "db_username": "wood",
                 "db_password": "123",
                 "db_port": 5432,
-                "db_host": "localhost"
+                "db_host": "localhost",
+                "secret_key": "secret_key"
             }, file)
         self.db_name = "test_messanger"
         self.db_username = "wood"
         self.db_password = "123"
         self.db_port = 5432
         self.db_host = "localhost"
+        self.secret_key = "secret_key"
 
     def reset_default_config(self):
         with open(self.path, 'w') as file:

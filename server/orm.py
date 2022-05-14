@@ -1,7 +1,8 @@
 import datetime
 
-from server.config import Settings
 import psycopg
+
+from server.config import Settings
 
 
 class Orm:
@@ -17,18 +18,6 @@ class Orm:
                                port=self.config.db_port,
                                password=self.config.db_password)
         return conn
-
-    def add_client_id(self, user_name, token):
-        self.cursor.execute("""
-        UPDATE clients 
-        SET token=%(token)s
-        WHERE username=%(user_name)s
-        """, {
-            "token": token,
-            "user_name": user_name
-        }
-                            )
-        self.conn.commit()
 
     def add_client(self, user_name: str, user_passwd: str) -> bool:
         try:

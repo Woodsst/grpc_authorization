@@ -1,4 +1,4 @@
-import psutil as psutil
+import psutil
 
 
 def terminate_server():

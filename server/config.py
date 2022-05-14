@@ -12,6 +12,7 @@ class Settings:
             self.db_host = yaml_file["db_host"]
             self.db_port = yaml_file["db_port"]
             self.db_password = yaml_file["db_password"]
+            self.secret_key = yaml_file["secret_key"]
 
     @staticmethod
     def config_path():
