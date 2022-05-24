@@ -9,7 +9,7 @@ def test_registration(send_message, orm):
         ))
     assert isinstance(response, RegisterReply)
     assert response.code == 1
-    assert response.reason == TOKEN.decode()
+    assert response.reason == TOKEN
 
 
 def test_registration_error(send_message, orm):

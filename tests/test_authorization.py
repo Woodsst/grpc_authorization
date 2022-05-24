@@ -9,7 +9,7 @@ def test_authorization(server_start, send_message, orm):
         user_name=USER, user_passwd=PASSWD))
     assert isinstance(response, LoginReply)
     assert response.code == 1
-    assert response.token == TOKEN.decode()
+    assert response.token == TOKEN
 
 
 def test_authorization_error(send_message, orm):

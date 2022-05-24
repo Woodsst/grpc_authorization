@@ -1,4 +1,4 @@
-db_host: localhost
+db_host: database
 db_name: messanger
 db_password: '123'
 db_port: 5432

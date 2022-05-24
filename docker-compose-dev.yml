@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+ database:
+  image: "postgres:latest"
+  ports:
+  - "5431:5432"
+  environment:
+   POSTGRES_USER: test
+   POSTGRES_PASSWORD: 123
+   POSTGRES_DB: test_messanger
+  volumes:
+   - ./db.sql:/docker-entrypoint-initdb.d/db.sql
+ authorization:
+  build: .
+  ports:
+  - "5000:5000"
+  depends_on:
+  - database
+  entrypoint: ["authorization/tests/test_run.sh"]
