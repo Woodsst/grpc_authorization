@@ -4,7 +4,6 @@ from concurrent import futures
 import grpc
 
 from server.authorization import Authorization
-from server.config import Settings
 from server.id_generator import token_generator
 from server.orm import Orm
 from server.registration import Registration
@@ -17,9 +16,8 @@ logger = logging.getLogger()
 
 class Server(GreeterServicer):
 
-    def __init__(self):
-        self.config = Settings()
-        self.orm = Orm(self.config)
+    def __init__(self, orm: Orm):
+        self.orm = orm
 
     def Login(self, request, context) -> LoginReply:
         auth = Authorization(request.user_name, request.user_passwd, self.orm)
@@ -47,9 +45,9 @@ class Server(GreeterServicer):
         pass
 
 
-def server_run():
+def server_run(orm: Orm):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    add_GreeterServicer_to_server(Server(), server)
+    add_GreeterServicer_to_server(Server(orm), server)
     server.add_insecure_port('localhost:5000')
     server.start()
     server.wait_for_termination()

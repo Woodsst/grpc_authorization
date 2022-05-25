@@ -1,9 +1,12 @@
 import datetime
+import logging
 import time
 
 import psycopg
 
 from server.config import Settings
+
+logger = logging.getLogger()
 
 
 class Orm:
@@ -26,14 +29,11 @@ class Orm:
             except psycopg.OperationalError:
                 timeout += 0.1
                 if timeout > 0.5:
+                    logger.critical('Error - connect to database host: %s, port: %s',
+                                    self.config.db_host, self.config.db_port)
                     raise psycopg.OperationalError('connection with database failed')
                 continue
             connect = True
-        # conn = psycopg.connect(dbname=self.config.db_name,
-        #                        user=self.config.db_username,
-        #                        host=self.config.db_host,
-        #                        port=self.config.db_port,
-        #                        password=self.config.db_password)
         return conn
 
     def add_client(self, user_name: str, user_passwd: str) -> bool:

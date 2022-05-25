@@ -17,7 +17,7 @@ class Authorization:
         self.orm = orm
 
     def client_authorization(self):
-        check = self.orm.get_client(self.user_name, self.passwd)
+        check: tuple = self.orm.get_client(self.user_name, self.passwd)
         if check:
             if check[0] == self.user_name and check[1] == self.passwd:
                 return ClientStatus.CLIENT_AUTHORIZATION
