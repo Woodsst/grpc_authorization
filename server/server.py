@@ -41,9 +41,6 @@ class Server(GreeterServicer):
         logger.info('%s - client exist', request.user_name)
         return RegisterReply(code=RegisterCodeResult.Value('RCR_already_exist'))
 
-    def Connect(self, request_iterator, context):
-        pass
-
 
 def server_run(orm: Orm):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

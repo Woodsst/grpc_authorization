@@ -3,7 +3,6 @@ syntax = "proto3";
 service Greeter {
   rpc Register (RegisterRequest) returns (RegisterReply) {}
   rpc Login (LoginRequest) returns (LoginReply) {}
-  rpc Connect (stream ping) returns (stream pong) {}
 }
 
 enum RegisterCodeResult
@@ -41,12 +40,4 @@ message LoginReply {
   LoginCodeResult code = 1;
   string reason = 2;
   string token = 3;
-}
-
-message ping {
-  string token = 1;
-}
-
-message pong {
-
 }

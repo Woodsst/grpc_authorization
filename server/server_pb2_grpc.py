@@ -24,11 +24,6 @@ class GreeterStub(object):
                 request_serializer=server__pb2.LoginRequest.SerializeToString,
                 response_deserializer=server__pb2.LoginReply.FromString,
                 )
-        self.Connect = channel.stream_stream(
-                '/Greeter/Connect',
-                request_serializer=server__pb2.ping.SerializeToString,
-                response_deserializer=server__pb2.pong.FromString,
-                )
 
 
 class GreeterServicer(object):
@@ -46,12 +41,6 @@ class GreeterServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def Connect(self, request_iterator, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
 
 def add_GreeterServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -64,11 +53,6 @@ def add_GreeterServicer_to_server(servicer, server):
                     servicer.Login,
                     request_deserializer=server__pb2.LoginRequest.FromString,
                     response_serializer=server__pb2.LoginReply.SerializeToString,
-            ),
-            'Connect': grpc.stream_stream_rpc_method_handler(
-                    servicer.Connect,
-                    request_deserializer=server__pb2.ping.FromString,
-                    response_serializer=server__pb2.pong.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -111,22 +95,5 @@ class Greeter(object):
         return grpc.experimental.unary_unary(request, target, '/Greeter/Login',
             server__pb2.LoginRequest.SerializeToString,
             server__pb2.LoginReply.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def Connect(request_iterator,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/Greeter/Connect',
-            server__pb2.ping.SerializeToString,
-            server__pb2.pong.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
