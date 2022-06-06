@@ -23,7 +23,7 @@ class Server(GreeterServicer):
         auth = Authorization(request.user_name, request.user_passwd, self.orm)
         check = auth.client_authorization()
         if check == ClientStatus.CLIENT_AUTHORIZATION:
-            token = token_generator(request.user_name)
+            token = token_generator(request.user_name, request.user_passwd)
             return LoginReply(code=LoginCodeResult.Value("LCR_ok"), token=token)
         return LoginReply(code=LoginCodeResult.Value("LCR_unknown_user"))
 
@@ -35,7 +35,7 @@ class Server(GreeterServicer):
         logger.info('%s - register request', request.user_name)
         register = Registration(request.user_name, request.user_passwd, self.orm)
         if register.registration():
-            token = token_generator(request.user_name)
+            token = token_generator(request.user_name, request.user_passwd)
             return RegisterReply(code=RegisterCodeResult.Value('RCR_ok'), reason=token)
 
         logger.info('%s - client exist', request.user_name)
