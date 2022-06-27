@@ -1,21 +1,21 @@
-import datetime
-import logging
 import time
 
 import psycopg
-
+from server.logger_config import logger
 from server.config import Settings
-
-logger = logging.getLogger()
 
 
 class Orm:
+    """Class for connect PostgreSQL and use SQL-requests"""
+
     def __init__(self, config: Settings):
         self.config = config
         self.conn = self.connect()
         self.cursor = self.conn.cursor()
 
-    def connect(self):
+    def connect(self) -> psycopg.Connection:
+        """connecting with database"""
+
         timeout = 0.1
         connect = False
         while not connect:
@@ -37,6 +37,8 @@ class Orm:
         return conn
 
     def add_client(self, user_name: str, user_passwd: str) -> bool:
+        """SQL-request for added new client"""
+
         try:
             self.cursor.execute("""
             INSERT INTO clients (username, passwd, registration_date) 
@@ -44,7 +46,7 @@ class Orm:
             """, {
                 "user_name": user_name,
                 "passwd": user_passwd,
-                "registration_date": datetime.datetime.now()
+                "registration_date": int(time.time())
             }
                                 )
             self.conn.commit()
@@ -53,6 +55,8 @@ class Orm:
         return True
 
     def get_client(self, user_name: str, passwd: str) -> bool:
+        """SQL-request in database for client information"""
+
         self.cursor.execute("""
         SELECT username, passwd 
         FROM clients 

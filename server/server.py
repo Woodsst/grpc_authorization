@@ -1,4 +1,3 @@
-import logging
 from concurrent import futures
 
 import grpc
@@ -10,8 +9,7 @@ from server.registration import Registration
 from server.server_pb2 import RegisterReply, RegisterCodeResult, LoginReply, LoginCodeResult
 from server.server_pb2_grpc import GreeterServicer, add_GreeterServicer_to_server
 from server.authorization import ClientStatus
-
-logger = logging.getLogger()
+from server.logger_config import logger
 
 
 class Server(GreeterServicer):
@@ -20,6 +18,8 @@ class Server(GreeterServicer):
         self.orm = orm
 
     def Login(self, request, context) -> LoginReply:
+        """Handler request for login"""
+
         auth = Authorization(request.user_name, request.user_passwd, self.orm)
         check = auth.client_authorization()
         if check == ClientStatus.CLIENT_AUTHORIZATION:
@@ -28,6 +28,8 @@ class Server(GreeterServicer):
         return LoginReply(code=LoginCodeResult.Value("LCR_unknown_user"))
 
     def Register(self, request, context) -> RegisterReply:
+        """Handler request for new username registration"""
+
         if len(request.user_name) <= 0 or len(request.user_passwd) <= 0:
             logger.info('%s - bad name or pass', request.user_name)
             return RegisterReply(code=RegisterCodeResult.Value('RCR_undefined'))
@@ -43,6 +45,8 @@ class Server(GreeterServicer):
 
 
 def server_run(orm: Orm):
+    """Start server run forever"""
+
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     add_GreeterServicer_to_server(Server(orm), server)
     server.add_insecure_port('localhost:5000')

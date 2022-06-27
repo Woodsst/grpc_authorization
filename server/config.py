@@ -3,6 +3,8 @@ import yaml
 
 
 class Settings:
+    """class for parse yml with data for work server"""
+
     def __init__(self):
         self.path = self.config_path()
         with open(self.path, 'r') as conf:
@@ -16,6 +18,8 @@ class Settings:
 
     @staticmethod
     def config_path():
+        """finding config path"""
+
         raw_path = os.path.dirname(__file__)
         raw_path = raw_path.split('/')
         raw_path.pop(-1)
