@@ -1,10 +1,11 @@
 syntax = "proto3";
 
-service Greeter {
+service Greeter { // Class to client requests handle
   rpc Register (RegisterRequest) returns (RegisterReply) {}
   rpc Login (LoginRequest) returns (LoginReply) {}
 }
 
+// Status codes for registration
 enum RegisterCodeResult
 {
   RCR_undefined = 0;
@@ -13,6 +14,7 @@ enum RegisterCodeResult
   RCR_bad_credentials = 3;
 }
 
+// Status codes for login
 enum LoginCodeResult
 {
   LCR_undefined = 0;
@@ -21,21 +23,25 @@ enum LoginCodeResult
   LCR_bad_credentials = 3;
 }
 
+// Request for registration
 message RegisterRequest {
   string user_name = 1;
   string user_passwd = 2;
 }
 
+// Server response to registration request
 message RegisterReply {
   RegisterCodeResult code = 1;
   string reason = 2;
 }
 
+// Request for login
 message LoginRequest {
   string user_name = 1;
   string user_passwd = 2;
 }
 
+// Server response to login request
 message LoginReply {
   LoginCodeResult code = 1;
   string reason = 2;
