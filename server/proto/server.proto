@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-service Greeter { // Class to client requests handle
+service Authorization { // Class to client requests handle
   rpc Register (RegisterRequest) returns (RegisterReply) {}
   rpc Login (LoginRequest) returns (LoginReply) {}
 }

@@ -7,12 +7,12 @@ from server.id_generator import token_generator
 from server.orm import Orm
 from server.registration import Registration
 from server.server_pb2 import RegisterReply, RegisterCodeResult, LoginReply, LoginCodeResult
-from server.server_pb2_grpc import GreeterServicer, add_GreeterServicer_to_server
+from server.server_pb2_grpc import AuthorizationServicer, add_AuthorizationServicer_to_server
 from server.authorization import ClientStatus
 from server.logger_config import logger
 
 
-class Server(GreeterServicer):
+class Server(AuthorizationServicer):
 
     def __init__(self, orm: Orm):
         self.orm = orm
@@ -48,7 +48,7 @@ def server_run(orm: Orm):
     """Start server run forever"""
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    add_GreeterServicer_to_server(Server(orm), server)
+    add_AuthorizationServicer_to_server(Server(orm), server)
     server.add_insecure_port('localhost:5000')
     server.start()
     server.wait_for_termination()

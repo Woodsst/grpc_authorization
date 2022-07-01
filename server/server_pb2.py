@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cserver.proto\"9\n\x0fRegisterRequest\x12\x11\n\tuser_name\x18\x01 \x01(\t\x12\x13\n\x0buser_passwd\x18\x02 \x01(\t\"B\n\rRegisterReply\x12!\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x13.RegisterCodeResult\x12\x0e\n\x06reason\x18\x02 \x01(\t\"6\n\x0cLoginRequest\x12\x11\n\tuser_name\x18\x01 \x01(\t\x12\x13\n\x0buser_passwd\x18\x02 \x01(\t\"K\n\nLoginReply\x12\x1e\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x10.LoginCodeResult\x12\x0e\n\x06reason\x18\x02 \x01(\t\x12\r\n\x05token\x18\x03 \x01(\t*c\n\x12RegisterCodeResult\x12\x11\n\rRCR_undefined\x10\x00\x12\n\n\x06RCR_ok\x10\x01\x12\x15\n\x11RCR_already_exist\x10\x02\x12\x17\n\x13RCR_bad_credentials\x10\x03*_\n\x0fLoginCodeResult\x12\x11\n\rLCR_undefined\x10\x00\x12\n\n\x06LCR_ok\x10\x01\x12\x14\n\x10LCR_unknown_user\x10\x02\x12\x17\n\x13LCR_bad_credentials\x10\x03\x32`\n\x07Greeter\x12.\n\x08Register\x12\x10.RegisterRequest\x1a\x0e.RegisterReply\"\x00\x12%\n\x05Login\x12\r.LoginRequest\x1a\x0b.LoginReply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cserver.proto\"9\n\x0fRegisterRequest\x12\x11\n\tuser_name\x18\x01 \x01(\t\x12\x13\n\x0buser_passwd\x18\x02 \x01(\t\"B\n\rRegisterReply\x12!\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x13.RegisterCodeResult\x12\x0e\n\x06reason\x18\x02 \x01(\t\"6\n\x0cLoginRequest\x12\x11\n\tuser_name\x18\x01 \x01(\t\x12\x13\n\x0buser_passwd\x18\x02 \x01(\t\"K\n\nLoginReply\x12\x1e\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x10.LoginCodeResult\x12\x0e\n\x06reason\x18\x02 \x01(\t\x12\r\n\x05token\x18\x03 \x01(\t*c\n\x12RegisterCodeResult\x12\x11\n\rRCR_undefined\x10\x00\x12\n\n\x06RCR_ok\x10\x01\x12\x15\n\x11RCR_already_exist\x10\x02\x12\x17\n\x13RCR_bad_credentials\x10\x03*_\n\x0fLoginCodeResult\x12\x11\n\rLCR_undefined\x10\x00\x12\n\n\x06LCR_ok\x10\x01\x12\x14\n\x10LCR_unknown_user\x10\x02\x12\x17\n\x13LCR_bad_credentials\x10\x03\x32\x66\n\rAuthorization\x12.\n\x08Register\x12\x10.RegisterRequest\x1a\x0e.RegisterReply\"\x00\x12%\n\x05Login\x12\r.LoginRequest\x1a\x0b.LoginReply\"\x00\x62\x06proto3')
 
 _REGISTERCODERESULT = DESCRIPTOR.enum_types_by_name['RegisterCodeResult']
 RegisterCodeResult = enum_type_wrapper.EnumTypeWrapper(_REGISTERCODERESULT)
@@ -63,7 +63,7 @@ LoginReply = _reflection.GeneratedProtocolMessageType('LoginReply', (_message.Me
   })
 _sym_db.RegisterMessage(LoginReply)
 
-_GREETER = DESCRIPTOR.services_by_name['Greeter']
+_AUTHORIZATION = DESCRIPTOR.services_by_name['Authorization']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
@@ -79,6 +79,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _LOGINREQUEST._serialized_end=197
   _LOGINREPLY._serialized_start=199
   _LOGINREPLY._serialized_end=274
-  _GREETER._serialized_start=474
-  _GREETER._serialized_end=570
+  _AUTHORIZATION._serialized_start=474
+  _AUTHORIZATION._serialized_end=576
 # @@protoc_insertion_point(module_scope)

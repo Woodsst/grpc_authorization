@@ -5,8 +5,9 @@ import grpc
 import server_pb2 as server__pb2
 
 
-class GreeterStub(object):
-    """Missing associated documentation comment in .proto file."""
+class AuthorizationStub(object):
+    """Class to client requests handle
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -15,19 +16,20 @@ class GreeterStub(object):
             channel: A grpc.Channel.
         """
         self.Register = channel.unary_unary(
-                '/Greeter/Register',
+                '/Authorization/Register',
                 request_serializer=server__pb2.RegisterRequest.SerializeToString,
                 response_deserializer=server__pb2.RegisterReply.FromString,
                 )
         self.Login = channel.unary_unary(
-                '/Greeter/Login',
+                '/Authorization/Login',
                 request_serializer=server__pb2.LoginRequest.SerializeToString,
                 response_deserializer=server__pb2.LoginReply.FromString,
                 )
 
 
-class GreeterServicer(object):
-    """Missing associated documentation comment in .proto file."""
+class AuthorizationServicer(object):
+    """Class to client requests handle
+    """
 
     def Register(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -42,7 +44,7 @@ class GreeterServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_GreeterServicer_to_server(servicer, server):
+def add_AuthorizationServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Register': grpc.unary_unary_rpc_method_handler(
                     servicer.Register,
@@ -56,13 +58,14 @@ def add_GreeterServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'Greeter', rpc_method_handlers)
+            'Authorization', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class Greeter(object):
-    """Missing associated documentation comment in .proto file."""
+class Authorization(object):
+    """Class to client requests handle
+    """
 
     @staticmethod
     def Register(request,
@@ -75,7 +78,7 @@ class Greeter(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Greeter/Register',
+        return grpc.experimental.unary_unary(request, target, '/Authorization/Register',
             server__pb2.RegisterRequest.SerializeToString,
             server__pb2.RegisterReply.FromString,
             options, channel_credentials,
@@ -92,7 +95,7 @@ class Greeter(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Greeter/Login',
+        return grpc.experimental.unary_unary(request, target, '/Authorization/Login',
             server__pb2.LoginRequest.SerializeToString,
             server__pb2.LoginReply.FromString,
             options, channel_credentials,
