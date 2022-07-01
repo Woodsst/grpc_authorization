@@ -11,7 +11,6 @@ class Orm:
     def __init__(self, config: Settings):
         self.config = config
         self.conn = self.connect()
-        self.cursor = self.conn.cursor()
 
     def connect(self) -> psycopg.Connection:
         """connecting with database"""
@@ -39,8 +38,10 @@ class Orm:
     def add_client(self, user_name: str, user_passwd: str) -> bool:
         """SQL-request for added new client"""
 
-        try:
-            self.cursor.execute("""
+        with self.conn.cursor() as cur:
+            if self.client_exist(cur, user_name):
+                return False
+            cur.execute("""
             INSERT INTO clients (username, passwd, registration_date) 
             VALUES (%(user_name)s, %(passwd)s, %(registration_date)s)
             """, {
@@ -50,20 +51,33 @@ class Orm:
             }
                                 )
             self.conn.commit()
-        except psycopg.errors.UniqueViolation:
-            return False
         return True
 
     def get_client(self, user_name: str, passwd: str) -> bool:
         """SQL-request in database for client information"""
 
-        self.cursor.execute("""
-        SELECT username, passwd 
-        FROM clients 
-        WHERE username=%(user_name)s and passwd=%(passwd)s;
-        """, {
-            "user_name": user_name,
-            "passwd": passwd
-        }
-                            )
-        return self.cursor.fetchone()
+        with self.conn.cursor() as cur:
+            cur.execute("""
+            SELECT username, passwd 
+            FROM clients 
+            WHERE username=%(user_name)s and passwd=%(passwd)s;
+            """, {
+                "user_name": user_name,
+                "passwd": passwd
+            }
+                                )
+            return cur.fetchone()
+
+    @staticmethod
+    def client_exist(cur: psycopg.Cursor, username: str) -> bool:
+        """SQL-request to verify the existence of a client"""
+
+        cur.execute("""
+        SELECT username
+        FROM clients
+        WHERE username=%s
+        """, (username,))
+
+        if cur.fetchone() is None:
+            return False
+        return True

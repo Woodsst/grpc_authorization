@@ -8,4 +8,7 @@ if __name__ == '__main__':
     config = Settings()
     orm = Orm(config)
     logger.info("authorization server start")
-    server_run(orm)
+    try:
+        server_run(orm)
+    except KeyboardInterrupt:
+        pass
