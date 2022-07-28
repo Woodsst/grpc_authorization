@@ -1,5 +1,5 @@
-from client_data_for_tests import USER, PASSWD, TOKEN
-from server_pb2 import LoginRequest, RegisterRequest, LoginReply
+from tests.client_data_for_tests import USER, PASSWD, TOKEN
+from server.proto_api.server_pb2 import LoginRequest, RegisterRequest, LoginReply
 
 
 def test_authorization(server_start, send_message, orm):

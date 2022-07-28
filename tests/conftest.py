@@ -4,10 +4,10 @@ import time
 import grpc
 import pytest
 
-from config import Settings
-from orm import Orm
-from server_command import terminate_server
-from server_pb2_grpc import GreeterStub
+from tests.config import Settings
+from tests.orm import Orm
+from tests.server_command import terminate_server
+from server.proto_api.server_pb2_grpc import AuthorizationStub
 
 config = Settings()
 
@@ -32,5 +32,5 @@ def orm():
 @pytest.fixture()
 def send_message():
     with grpc.insecure_channel('localhost:5000') as channel:
-        stub = GreeterStub(channel)
+        stub = AuthorizationStub(channel)
         yield stub

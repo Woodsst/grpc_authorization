@@ -6,8 +6,8 @@ from server.authorization import Authorization
 from server.id_generator import token_generator
 from server.orm import Orm
 from server.registration import Registration
-from server.server_pb2 import RegisterReply, RegisterCodeResult, LoginReply, LoginCodeResult
-from server.server_pb2_grpc import AuthorizationServicer, add_AuthorizationServicer_to_server
+from server.proto_api.server_pb2 import RegisterReply, RegisterCodeResult, LoginReply, LoginCodeResult
+from server.proto_api.server_pb2_grpc import AuthorizationServicer, add_AuthorizationServicer_to_server
 from server.authorization import ClientStatus
 from server.logger_config import logger
 

@@ -1,5 +1,5 @@
-from client_data_for_tests import USER, PASSWD, TOKEN
-from server_pb2 import RegisterRequest, RegisterReply
+from tests.client_data_for_tests import USER, PASSWD, TOKEN
+from server.proto_api.server_pb2 import RegisterRequest, RegisterReply
 
 
 def test_registration(send_message, orm):

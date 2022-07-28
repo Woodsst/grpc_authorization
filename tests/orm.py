@@ -1,5 +1,5 @@
 import psycopg
-from config import Settings
+from tests.config import Settings
 
 
 class Orm:
