@@ -30,7 +30,7 @@ class Server(AuthorizationServicer):
     def Register(self, request, context) -> RegisterReply:
         """Handler request for new username registration"""
 
-        if len(request.user_name) <= 0 or len(request.user_passwd) <= 0:
+        if not Registration.validation(request.user_name, request.user_passwd):
             logger.info('%s - bad name or pass', request.user_name)
             return RegisterReply(code=RegisterCodeResult.Value('RCR_undefined'))
 

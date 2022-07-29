@@ -17,3 +17,9 @@ class Registration:
         if self.orm.add_client(self.user_name, self.user_passwd):
             return True
         return False
+
+    @classmethod
+    def validation(cls, username: str, passwd: str) -> bool:
+        if len(username) <= 0 or len(passwd) <= 0:
+            return False
+        return True
