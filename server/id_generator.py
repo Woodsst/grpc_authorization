@@ -7,5 +7,9 @@ def token_generator(username: str, passwd: str) -> str:
 
     key = Settings()
     key = key.secret_key
-    token = jwt.encode(payload={"user": username, "passwd": passwd}, key=key, algorithm="HS256")
+    token = jwt.encode(
+        payload={"user": username, "passwd": passwd},
+        key=key,
+        algorithm="HS256",
+    )
     return token

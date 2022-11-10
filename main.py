@@ -4,7 +4,7 @@ from server.orm import Orm
 from server.logger_config import logger
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     config = Settings()
     orm = Orm(config)
     logger.info("authorization server start")

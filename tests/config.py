@@ -6,7 +6,7 @@ import yaml
 class Settings:
     def __init__(self):
         self.path = self.config_path()
-        with open(self.path, 'r') as conf:
+        with open(self.path, "r") as conf:
             yaml_file = yaml.safe_load(conf)
             self.db_name = yaml_file["db_name"]
             self.db_username = yaml_file["db_username"]
@@ -23,29 +23,32 @@ class Settings:
             "db_host": self.db_host,
             "db_port": self.db_port,
             "db_password": self.db_password,
-            "secret_key": self.secret_key
+            "secret_key": self.secret_key,
         }
         return default
 
     @staticmethod
     def config_path():
         raw_path = os.path.dirname(__file__)
-        raw_path = raw_path.split('/')
+        raw_path = raw_path.split("/")
         raw_path.pop(-1)
-        raw_path.append('config.yml')
-        path = '/'.join(raw_path)
+        raw_path.append("config.yml")
+        path = "/".join(raw_path)
         return path
 
     def config_for_tests(self):
-        with open(self.path, 'w') as file:
-            yaml.dump({
-                "db_name": "test_messanger",
-                "db_username": "test",
-                "db_password": "123",
-                "db_port": 5432,
-                "db_host": "database",
-                "secret_key": "secret_key"
-            }, file)
+        with open(self.path, "w") as file:
+            yaml.dump(
+                {
+                    "db_name": "test_messanger",
+                    "db_username": "test",
+                    "db_password": "123",
+                    "db_port": 5432,
+                    "db_host": "database",
+                    "secret_key": "secret_key",
+                },
+                file,
+            )
         self.db_name = "test_messanger"
         self.db_username = "test"
         self.db_password = "123"
@@ -54,6 +57,6 @@ class Settings:
         self.secret_key = "secret_key"
 
     def reset_default_config(self):
-        with open(self.path, 'w') as file:
+        with open(self.path, "w") as file:
             yaml.dump(self.default, file)
             file.flush()

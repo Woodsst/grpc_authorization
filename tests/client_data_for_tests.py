@@ -1,14 +1,16 @@
 import jwt
 from tests.config import Settings
 
-USER = 'test_user'
-PASSWD = 'passwd'
+USER = "test_user"
+PASSWD = "passwd"
 
 
 def jwt_encoder(username: str, passwd: str) -> bytes:
     key = Settings()
     key = key.secret_key
-    _token = jwt.encode({"user": username, "passwd": passwd}, key, algorithm="HS256")
+    _token = jwt.encode(
+        {"user": username, "passwd": passwd}, key, algorithm="HS256"
+    )
     return _token
 
 

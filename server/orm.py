@@ -20,17 +20,24 @@ class Orm:
         while not connect:
             time.sleep(timeout)
             try:
-                conn = psycopg.connect(dbname=self.config.db_name,
-                                       user=self.config.db_username,
-                                       password=self.config.db_password,
-                                       host=self.config.db_host,
-                                       port=self.config.db_port)
+                conn = psycopg.connect(
+                    dbname=self.config.db_name,
+                    user=self.config.db_username,
+                    password=self.config.db_password,
+                    host=self.config.db_host,
+                    port=self.config.db_port,
+                )
             except psycopg.OperationalError:
                 timeout += 0.1
                 if timeout > 0.5:
-                    logger.critical('Error - connect to database host: %s, port: %s',
-                                    self.config.db_host, self.config.db_port)
-                    raise psycopg.OperationalError('connection with database failed')
+                    logger.critical(
+                        "Error - connect to database host: %s, port: %s",
+                        self.config.db_host,
+                        self.config.db_port,
+                    )
+                    raise psycopg.OperationalError(
+                        "connection with database failed"
+                    )
                 continue
             connect = True
         return conn
@@ -41,15 +48,17 @@ class Orm:
         with self.conn.cursor() as cur:
             if self.client_exist(cur, user_name):
                 return False
-            cur.execute("""
-            INSERT INTO clients (username, passwd, registration_date) 
+            cur.execute(
+                """
+            INSERT INTO clients (username, passwd, registration_date)
             VALUES (%(user_name)s, %(passwd)s, %(registration_date)s)
-            """, {
-                "user_name": user_name,
-                "passwd": user_passwd,
-                "registration_date": int(time.time())
-            }
-                                )
+            """,
+                {
+                    "user_name": user_name,
+                    "passwd": user_passwd,
+                    "registration_date": int(time.time()),
+                },
+            )
             self.conn.commit()
         return True
 
@@ -57,26 +66,28 @@ class Orm:
         """SQL-request in database for client information"""
 
         with self.conn.cursor() as cur:
-            cur.execute("""
-            SELECT username, passwd 
-            FROM clients 
+            cur.execute(
+                """
+            SELECT username, passwd
+            FROM clients
             WHERE username=%(user_name)s and passwd=%(passwd)s;
-            """, {
-                "user_name": user_name,
-                "passwd": passwd
-            }
-                                )
+            """,
+                {"user_name": user_name, "passwd": passwd},
+            )
             return cur.fetchone()
 
     @staticmethod
     def client_exist(cur: psycopg.Cursor, username: str) -> bool:
         """SQL-request to verify the existence of a client"""
 
-        cur.execute("""
+        cur.execute(
+            """
         SELECT username
         FROM clients
         WHERE username=%s
-        """, (username,))
+        """,
+            (username,),
+        )
 
         if cur.fetchone() is None:
             return False
